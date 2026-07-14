@@ -99,21 +99,28 @@ necessary, that is a real design change, not a gap to fill by reflex.
 - **Marketplace naming is owner-subject** (`linkesch-claude`), matching OpenAI's `codex@openai-codex`. It was briefly `claude-cc`, which was wrong: "cc" means Claude Code, the *host* being plugged into, and here the host is Codex.
 - **The icon is Anthropic's trademark**, sourced unmodified from `claude.com/favicon.svg`. Used to identify the delegation target only. Not covered by this repo's MIT license — see the README trademark note before changing or re-using it.
 
-## Known unverified: the macOS keychain issue
+## The macOS keychain issue, and how it was mis-scoped
 
-The first delegation on macOS fails with `Not logged in · Please run /login`
-even on a working Claude login. Claude Code keeps its OAuth token in the macOS
-keychain, and Codex's seatbelt sandbox blocks keychain access.
+`claude` fails with `Not logged in · Please run /login` **when run inside Codex's
+sandbox**, even on a working login: Claude Code keeps its OAuth token in the
+macOS keychain and seatbelt blocks keychain access.
 
-Confirmed: `claude -p` works outside the sandbox and fails inside `codex sandbox`.
-The sandbox also blocks outbound network, which is why an `ANTHROPIC_API_KEY`
-fallback does **not** work — that was tried and removed.
+Verified:
+- `claude -p` works outside the sandbox, fails inside `codex sandbox`
+- it fails under `read-only` *and* `workspace-write` — this is not a mode you can configure around
+- the sandbox blocks outbound network too, so an `ANTHROPIC_API_KEY` fallback does not work (tried, removed)
+- the **Codex desktop app hits none of this** — it delegates out of the box, no prompt, no error
 
-**Not confirmed:** that approving Codex's escalation actually fixes it. The
-reasoning is sound (escalation runs outside seatbelt; outside seatbelt works) but
-no successful end-to-end Codex→Claude run has been observed. It needs an
-interactive approval, which `codex exec` cannot give. If you can run this
-interactively, verify it and correct the README if the diagnosis is wrong.
+So the failure is real but narrow: it belongs to sandboxed CLI runs, mainly
+`codex exec`, which defaults to a read-only sandbox with no approvals. The
+interactive terminal TUI is still untested.
+
+The docs originally called this "expected on the first run" and gave it a
+top-level README section. That was wrong, and worth remembering as a pattern:
+the finding was generalised from `codex exec` — the only path that could be
+driven non-interactively — to all usage. When a conclusion comes from the one
+path you can automate, say which path it came from, and label the rest untested
+rather than assumed.
 
 ## Releasing
 
@@ -129,8 +136,22 @@ is a claim nothing corroborates.
 The version in `plugin.json` is display metadata only — Codex does not use it to
 gate updates, and reinstalling over the same version still refreshes the cache.
 
-For anything user-visible, keep these three in sync or the release list starts
-lying:
+### Docs change vs plugin change
+
+Not every commit is a release. Decide by asking whether the `claude` command
+Codex ends up running is different than before.
+
+**Docs change — just commit and push. No bump, no CHANGELOG, no tag.**
+README, CLAUDE.md, or wording in `SKILL.md` that corrects an explanation without
+changing what runs. `SKILL.md` ships to users, so "it's only prose" is not the
+test — the test is whether behaviour moved. Users still get it on their next
+`codex plugin marketplace upgrade`, because updates follow the branch, not tags.
+
+**Plugin change — bump, changelog, tag.**
+A different command, flag, or default; new or removed capability; anything that
+changes routing or what Codex does with the result.
+
+For a plugin change, keep these three in sync or the release list starts lying:
 
 1. `version` in `plugins/claude/.codex-plugin/plugin.json`
 2. A `CHANGELOG.md` entry
@@ -138,3 +159,6 @@ lying:
 
 Deliberately not automated — `codex-plugin-cc` has a bump script and CI because
 it has real code to test. Four content files do not justify it.
+
+Do not bump the version for a docs fix. It burns a version number on nothing
+and implies a change to anyone reading the release list.

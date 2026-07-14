@@ -16,13 +16,12 @@ Do not attempt the install yourself.
 
 ## "Not logged in · Please run /login"
 
-This does not mean the user is logged out. On macOS, Claude Code's OAuth token
-lives in the keychain, and the Codex sandbox blocks keychain access — so the
-call fails even on a working login.
+Do not tell the user to log in — they already are. This only appears when the
+`claude` call ran inside the Codex sandbox, which blocks the macOS keychain
+where Claude Code's token lives.
 
-Re-run the same command with escalated permissions, outside the sandbox. That
-is the only fix: an API key does not help, because the sandbox blocks outbound
-network as well, and keychain access cannot be granted piecemeal.
+Re-run the same command outside the sandbox, with escalated permissions. An API
+key does not help: the sandbox blocks outbound network too.
 
 If escalation is unavailable or the user declines, say so and stop. Do not
 silently do the work yourself.

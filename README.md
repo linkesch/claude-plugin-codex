@@ -106,16 +106,18 @@ then, once you've picked what matters:
 
 > delegate this to claude: the worker deadlocks under load, figure out why
 
-## macOS: "Not logged in · Please run /login"
+## Troubleshooting: "Not logged in · Please run /login"
 
-Expected on the first run, and it does not mean you are logged out.
+In the Codex app and normal interactive use, this does not come up — the plugin
+works out of the box against your existing Claude login.
 
-Claude Code stores its OAuth token in the macOS keychain, and Codex's seatbelt
-sandbox blocks keychain access. Approve the escalation when Codex asks to run
-the command outside the sandbox.
+You can hit it when Codex runs `claude` **inside its sandbox**, most commonly
+under `codex exec`, which defaults to a read-only sandbox with no approvals. On
+macOS, Claude Code keeps its OAuth token in the keychain, and seatbelt blocks
+keychain access, so the call fails even though you are perfectly logged in.
 
-An API key does not work around this — the sandbox blocks outbound network too,
-so the call fails either way. Running outside the sandbox is the only fix.
+Run it outside the sandbox. An API key does not help — the sandbox blocks
+outbound network too, so the call fails either way.
 
 This is the one asymmetry with codex-plugin-cc, which has no such problem:
 Codex keeps its auth in a plain `~/.codex/auth.json` that Claude Code can read
