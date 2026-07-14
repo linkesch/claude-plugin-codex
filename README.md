@@ -173,4 +173,10 @@ add a `CHANGELOG.md` entry for anything user-visible.
 
 MIT — see [LICENSE](LICENSE).
 
-Not affiliated with OpenAI or Anthropic.
+Not affiliated with, endorsed by, or sponsored by OpenAI or Anthropic.
+
+"Claude", "Claude Code", "Codex", and their logos are trademarks of their
+respective owners. The Claude glyph in [`plugins/claude/assets/claude.svg`](plugins/claude/assets/claude.svg)
+is Anthropic's, used unmodified and only to identify which tool this plugin
+delegates to. The MIT license above covers this project's own code and docs, not
+that mark.

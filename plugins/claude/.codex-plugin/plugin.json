@@ -32,6 +32,9 @@
       "Get a second opinion from Claude on this design"
     ],
     "brandColor": "#D97757",
+    "composerIcon": "./assets/claude.svg",
+    "logo": "./assets/claude.svg",
+    "logoDark": "./assets/claude.svg",
     "screenshots": []
   }
 }
