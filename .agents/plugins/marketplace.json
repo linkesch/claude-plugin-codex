@@ -1,0 +1,20 @@
+{
+  "name": "claude-cc",
+  "interface": {
+    "displayName": "Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "claude",
+      "source": {
+        "source": "local",
+        "path": "./plugins/claude"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Engineering"
+    }
+  ]
+}

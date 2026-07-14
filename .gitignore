@@ -1,0 +1,10 @@
+.DS_Store
+**/.DS_Store
+*.log
+
+# Nothing here should ever hold credentials, but belt and braces:
+.env
+.env.*
+!.env.example
+*.pem
+*.key

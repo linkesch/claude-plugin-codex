@@ -1,0 +1,37 @@
+{
+  "name": "claude",
+  "version": "0.1.0",
+  "description": "Use Claude Code from Codex to review code or delegate tasks.",
+  "author": {
+    "name": "Pavel Linkesch",
+    "url": "https://github.com/linkesch"
+  },
+  "homepage": "https://github.com/linkesch/claude-plugin-codex",
+  "repository": "https://github.com/linkesch/claude-plugin-codex",
+  "license": "MIT",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "delegate",
+    "review",
+    "rescue",
+    "second-opinion"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Claude Code",
+    "shortDescription": "Delegate tasks and reviews to Claude Code",
+    "longDescription": "Hand work to Claude Code without leaving Codex. Delegates through the local `claude` CLI, so it reuses the auth, config, MCP servers, and CLAUDE.md you already have.",
+    "developerName": "Pavel Linkesch",
+    "category": "Engineering",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://github.com/linkesch/claude-plugin-codex",
+    "defaultPrompt": [
+      "Ask Claude to review my working tree",
+      "Delegate this failing test to Claude Code",
+      "Get a second opinion from Claude on this design"
+    ],
+    "brandColor": "#D97757",
+    "screenshots": []
+  }
+}
