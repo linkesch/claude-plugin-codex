@@ -30,7 +30,7 @@ findings you want fixed — it never auto-applies them.
 
 ```bash
 codex plugin marketplace add https://github.com/linkesch/claude-plugin-codex
-codex plugin add claude@claude-cc
+codex plugin add claude@linkesch-claude
 ```
 
 From a local clone instead:
@@ -38,13 +38,13 @@ From a local clone instead:
 ```bash
 git clone https://github.com/linkesch/claude-plugin-codex
 codex plugin marketplace add ./claude-plugin-codex
-codex plugin add claude@claude-cc
+codex plugin add claude@linkesch-claude
 ```
 
 Verify it registered:
 
 ```bash
-codex plugin list | grep claude@claude-cc
+codex plugin list | grep claude@linkesch-claude
 ```
 
 ## Usage
@@ -163,7 +163,7 @@ Changes to source do **not** go live until you reinstall — Codex serves the
 plugin from a cache under `~/.codex/plugins/`, even on an unchanged version:
 
 ```bash
-codex plugin add claude@claude-cc
+codex plugin add claude@linkesch-claude
 ```
 
 Bump `version` in [`plugin.json`](plugins/claude/.codex-plugin/plugin.json) and
